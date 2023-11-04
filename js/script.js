@@ -24,7 +24,7 @@ $(function() {
         $('#home').hide();
         $('#card-tiempo').hide();
         $("#titulo_buscar").hide();
-        navigator.geolocation.getCurrentPosition();
+        openWeatherClient.getGeoLocation();
     });
     
     $('#get-weather').on('click', function() {
@@ -185,3 +185,13 @@ OpenWeather.prototype.getWeather = function(){
         $('#error').show();
     })
 }
+
+// OpenWeather.prototype.getGeoLocation() = function(){
+//     navigator.geolocation.getCurrentPosition(
+//         //Si el navegador entrega los datos de geolocalizacion los imprimimos
+//         function (position) {
+//             window.alert("nav permitido");
+//             $("#nlat").text(position.coords.latitude);
+//             $("#nlon").text(position.coords.longitude);
+//         },
+// }
