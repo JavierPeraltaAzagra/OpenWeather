@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OpenWeather</title>
+    <link href="css/styles.css" rel="stylesheet" type="text/css">
+    <script src="https://kit.fontawesome.com/8f1140417a.js" crossorigin="anonymous"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet"
+            integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+</head>
+<body>
+
+    <!-- NAV -->
+
+    <div class="container-fluid">
+        <table class="table text-center">
+            <tr class="row">
+                <td class="col-4"><button id="inicio"><i class="fa-solid fa-house"></i></button></td>
+                <td class="col-4"><button id="buscar"><i class="fa-solid fa-magnifying-glass"></i></button></td>
+                <td class="col-4"><button id="actual"><i class="fa-solid fa-location-dot"></i></button></td>
+            </tr>
+        </table>
+    </div>
+
+    <!-- HOME -->
+
+    <div id="home">
+        <h1 class="text-center">OPENWEATHER</h1>
+        <h2 class="text-center">¡Aquí puedes consultar el tiempo cuando quieras!</h2>
+        <h3 class="text-center"><i class="fa-solid fa-house"></i> Pulsa este icono para volver a esta página</h3>
+        <h3 class="text-center"><i class="fa-solid fa-magnifying-glass"></i> Pulsa este icono para ver el tiempo de una ubicación que desees</h3>
+        <h3 class="text-center"><i class="fa-solid fa-location-dot"></i> Pulsa este icono para ver el tiempo de tu ubicación actual</h3>
+    </div>
+    
+
+    <!-- CARD TIEMPO -->
+    <h3 class="text-center" id="error">No se ha encontardo la localización</h3>
+    <div id="card-tiempo">
+        <form class="text-center">
+            <input type="text" name="localizacion" id="localizacion">
+            <button type="button" class="btn btn-primary" id="get-weather">Buscar</button>
+        </form>
+        <h3 id="titulo_buscar">Busque una localización para ver el tiempo</h3>
+        <div id="weather">
+            <div class="container mt-5">
+                <div class="d-flex flex-row justify-content-center align-items-center">
+                    <div class="weather__card">
+                        <div class="d-flex flex-row justify-content-center align-items-center">
+                            <div class="col-4 col-sm-4 justify-content-center align-items-center">
+                                <h2 id="temperatura"></h2>
+                            </div>
+                            <div id="datos_tiempo" class="col-4 col-sm-4 justify-content-center align-items-center text-center">
+                                <h5 id="diaSemana" class="text-center"></h5>
+                                <span class="weather__description text-center"></span>
+                            </div>
+                            <div class="col-4 col-sm-4 justify-content-center align-items-center">
+                                <h3 id="localizacionTiempo"></h3>
+                            </div>
+                        </div>
+                        <div class="weather__status d-flex flex-row justify-content-center align-items-center mt-3">
+                            <div class="p-4 d-flex col-4 col-sm-4 justify-content-center align-items-center">
+                                <img src="https://svgur.com/i/oHw.svg">
+                                <span id="humidity"></span>
+                            </div>
+                            <div class="p-4 d-flex col-4 col-sm-4 justify-content-center align-items-center">
+                                <img src="https://svgur.com/i/oH_.svg">
+                                <span id="pressure"></span>
+                            </div>
+                            <div class="p-4 d-flex col-4 col-sm-4 justify-content-center align-items-center">
+                                <img src="https://svgur.com/i/oKS.svg">
+                                <span id="wind"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="weather__forecast d-flex flex-row justify-content-center align-items-center mt-3">
+                <div class="p-4 col-3 col-sm-3 d-flex flex-column justify-content-center align-items-center">
+                    <span id="1_dia_semana"></span>
+                    <span id="1_dia_grados"></span>
+                </div>
+
+                <div class="p-4 col-3 col-sm-3 d-flex flex-column justify-content-center align-items-center">
+                    <span id="2_dia_semana"></span>
+                    <span id="2_dia_grados"></span>
+                </div>
+
+                <div class="p-4 col-3 col-sm-3 d-flex flex-column justify-content-center align-items-center">
+                    <span id="3_dia_semana"></span>
+                    <span id="3_dia_grados"></span>
+                </div>
+
+                <div class="p-4 col-3 col-sm-3 d-flex flex-column justify-content-center align-items-center">
+                    <span id="4_dia_semana"></span>
+                    <span id="4_dia_grados"></span>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+
+    <script type="text/javascript" src="js/jquery-2.1.4.min.js"></script>
+    <script type="text/javascript" src="js/script.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
+</body>
+</html>
