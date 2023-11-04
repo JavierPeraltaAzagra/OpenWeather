@@ -1,5 +1,6 @@
+var openWeatherClient;
 $(function() {
-    var openWeatherClient = new OpenWeather();
+    openWeatherClient = new OpenWeather();
 
     $('#home').show();
     $('#card-tiempo').hide();
@@ -16,21 +17,25 @@ $(function() {
         $('#home').hide();
         $('#card-tiempo').show();
         $("#weather").hide();
+        $('form').show();
         $("#localizacion").val("");
         $("#titulo_buscar").show();
     });
 
     $('#actual').on('click', function() {
         $('#home').hide();
-        $('#card-tiempo').hide();
+        $('#card-tiempo').show();
         $("#titulo_buscar").hide();
+        $("#weather").hide();
+        $("form").hide();
         openWeatherClient.getGeoLocation();
     });
     
     $('#get-weather').on('click', function() {
+        $('#home').hide();
         $('#error').hide();
         $("#titulo_buscar").hide();
-        openWeatherClient.getWeather();
+        openWeatherClient.getLatLon();
     });
 });
 
@@ -39,9 +44,25 @@ function OpenWeather() {
     this.ApiKey = "50ac30c78dcfb8c8369fa2068668e9a7";
 }
 
-// YA FUNCIONA, SOLO FALTA PONER LOS DATOS EN EL CARD DEL TIEMPO
-OpenWeather.prototype.getWeather = function(){
-    var that = this;
+OpenWeather.prototype.getLatLon = function(){
+    var localizacion = $("#localizacion").val();
+    var lat;
+    var lon;
+    $.get(this.apiUrl + "geo/1.0/direct?q=" + localizacion + "&limit=1&appid=" + this.ApiKey, function(latLon){
+        if (latLon && latLon.length > 0){
+            $.each(latLon, function(index, data) {
+                lat = data.lat;
+                lon = data.lon;
+            });
+        }else{
+            $('#error').show();
+        }
+        openWeatherClient.getWeather(lat, lon, false);
+    });
+}
+
+
+OpenWeather.prototype.getWeather = function(lat, lon, geolocation){
     var localizacion = $("#localizacion").val();
     
     const diasSemana = [
@@ -54,7 +75,7 @@ OpenWeather.prototype.getWeather = function(){
       'sábado',
     ];
 
-    $.get(this.apiUrl + "data/2.5/forecast?q=" + localizacion + "&appid=" + this.ApiKey + "&units=metric").done(function(weather){
+    $.get(this.apiUrl + "data/2.5/forecast?lat=" + lat + "&lon=" + lon + "&appid=" + this.ApiKey + "&units=metric").done(function(weather){
         
         if (weather.list && weather.list.length > 0){
             $("#weather").show();
@@ -65,7 +86,11 @@ OpenWeather.prototype.getWeather = function(){
                     var nombreDia = diasSemana[numeroDia];
                     $('#temperatura').html(Math.round(data.main.temp) + "&deg;");
                     $('#diaSemana').html(nombreDia.toUpperCase());
-                    $('#localizacionTiempo').html(localizacion);
+                    if (geolocation == true){
+                        $('#localizacionTiempo').html(weather.city.name);
+                    }else{
+                        $('#localizacionTiempo').html(localizacion); 
+                    }
                     $('.weather__description').html(data.weather[0].main);
                     $('#datos_tiempo').children('img').remove();
                     $('.weather__forecast img').remove();
@@ -186,12 +211,10 @@ OpenWeather.prototype.getWeather = function(){
     })
 }
 
-// OpenWeather.prototype.getGeoLocation() = function(){
-//     navigator.geolocation.getCurrentPosition(
-//         //Si el navegador entrega los datos de geolocalizacion los imprimimos
-//         function (position) {
-//             window.alert("nav permitido");
-//             $("#nlat").text(position.coords.latitude);
-//             $("#nlon").text(position.coords.longitude);
-//         },
-// }
+OpenWeather.prototype.getGeoLocation = function(){
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(function(position){
+          openWeatherClient.getWeather(position.coords.latitude, position.coords.longitude, true);
+        });   
+    }
+};
